@@ -35,7 +35,7 @@ mvn package
 Now build the jodoc image. This is the image that runs the MAC.
 
 ```
-./build_image.sh
+./build-image.sh
 
 ```
 
@@ -44,7 +44,7 @@ It's the port number for the internal Zookeeper. You can easily change the port
 number, just look inside the script.
 
 ```
-./run_image.sh
+./run-image.sh
 ```
 
 And lastly, you can run the client program. It looks for a "demo" table, 
@@ -60,7 +60,7 @@ mvn \
   -DZOOKEEPER_PORT=20000
 ```
 
-If you change the port number in the "run_image.sh" script, change the port 
+If you change the port number in the "run-image.sh" script, change the port 
 number in the "mvn exec:java" command as well.
 
 2014, Nov 29 - at the time of this writing, there is a outstanding issue[1] that
