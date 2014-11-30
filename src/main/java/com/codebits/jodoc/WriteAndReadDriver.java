@@ -1,6 +1,5 @@
 package com.codebits.jodoc;
 
-
 import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
 import org.apache.accumulo.core.client.Connector;
@@ -43,6 +42,6 @@ public class WriteAndReadDriver {
         } else {
             System.out.println("TABLE EXISTS");
         }
-
+        
     }
 }

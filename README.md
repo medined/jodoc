@@ -2,3 +2,71 @@ jodoc
 =====
 
 Runs MiniAccumuloCluster inside a Docker container
+
+I continue to look for the ways to begin working with Accumulo. With this project I may have the simplest possible setup assuming you're a Docker fan (and if not, you should become one!).
+
+It's simple because you don't need any Hadoop or Zookeeper installed.
+
+The project runs a MiniAccumuloCluster (MAC) inside a Docker container. Then connects to that MAC from a client program.
+
+First, clone the project.
+
+```
+git clone https://github.com/medined/jodoc.git
+cd jodoc
+```
+
+Then, build the Java image. I'm using the Zulu 7 JRE from Azul Systems because 
+it uses less disk space than other options.
+
+```
+cd java_zulu7
+./build_image.sh
+```
+
+Now, compile the Java code and create a shaded jar file. This jar file is copied 
+into the Docker image that runs the MAC. It's shaded so that all dependent 
+classes are available inside the container.
+
+```
+mvn package
+```
+
+Now build the jodoc image. This is the image that runs the MAC.
+
+```
+./build_image.sh
+
+```
+
+Once the image is built, it can be run. The number "20000" will be displayed. 
+It's the port number for the internal Zookeeper. You can easily change the port 
+number, just look inside the script.
+
+```
+./run_image.sh
+```
+
+And lastly, you can run the client program. It looks for a "demo" table, 
+creating it if not found. The first time the client program is run, it will 
+display a "TABLE DOES NOT EXIST" message. The second time it will display
+"TABLE EXISTS" message proving that you are connecting to Accumulo and
+effecting change.
+
+```
+mvn \
+  exec:java \
+  -Dexec.mainClass="com.codebits.jodoc.WriteAndReadDriver" \
+  -DZOOKEEPER_PORT=20000
+```
+
+If you change the port number in the "run_image.sh" script, change the port 
+number in the "mvn exec:java" command as well.
+
+2014, Nov 29 - at the time of this writing, there is a outstanding issue[1] that
+causes an exeception to be thrown as the client program is exiting. The 
+exception message starts "java.lang.InterruptedException: sleep interrupted"
+and can be ignored. Since the exception happens when the client application is
+exiting, all resources are freed.
+
+[1] https://issues.apache.org/jira/browse/ACCUMULO-2113
