@@ -9,22 +9,22 @@ It's simple because you don't need any Hadoop or Zookeeper installed.
 
 The project runs a MiniAccumuloCluster (MAC) inside a Docker container. Then connects to that MAC from a client program.
 
-First, clone the project.
+# Docker Image Dependency
+
+This Docker image depends on my medined/java:zulu7 image from the Docker Hub. It's maintained on github at https://github.com/medined/java-zulu-7.
+
+# Instructions
+
+## Clone the project
 
 ```
 git clone https://github.com/medined/jodoc.git
 cd jodoc
 ```
 
-Then, build the Java image. I'm using the Zulu 7 JRE from Azul Systems because 
-it uses less disk space than other options.
+## Compile the code
 
-```
-cd java_zulu7
-./build_image.sh
-```
-
-Now, compile the Java code and create a shaded jar file. This jar file is copied 
+Compile the Java code and create a shaded jar file. This jar file is copied 
 into the Docker image that runs the MAC. It's shaded so that all dependent 
 classes are available inside the container.
 
@@ -32,12 +32,16 @@ classes are available inside the container.
 mvn package
 ```
 
+## Build the image
+
 Now build the jodoc image. This is the image that runs the MAC.
 
 ```
 ./build-image.sh
 
 ```
+
+## Run the image
 
 Once the image is built, it can be run. The number "20000" will be displayed. 
 It's the port number for the internal Zookeeper. You can easily change the port 
@@ -47,7 +51,9 @@ number, just look inside the script.
 ./run-image.sh
 ```
 
-And lastly, you can run the client program. It looks for a "demo" table, 
+# Run client program
+
+Now, you can run the client program. It looks for a "demo" table, 
 creating it if not found. The first time the client program is run, it will 
 display a "TABLE DOES NOT EXIST" message. The second time it will display
 "TABLE EXISTS" message proving that you are connecting to Accumulo and

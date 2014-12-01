@@ -7,6 +7,7 @@ import org.apache.accumulo.core.client.ZooKeeperInstance;
 import org.apache.accumulo.core.client.TableExistsException;
 import org.apache.accumulo.core.client.security.tokens.AuthenticationToken;
 import org.apache.accumulo.core.client.security.tokens.PasswordToken;
+import org.apache.accumulo.core.util.CleanUp;
 
 public class WriteAndReadDriver {
 
@@ -42,6 +43,8 @@ public class WriteAndReadDriver {
         } else {
             System.out.println("TABLE EXISTS");
         }
+        
+        CleanUp.shutdownNow();
         
     }
 }
