@@ -5,9 +5,27 @@ Runs MiniAccumuloCluster inside a Docker container
 
 I continue to look for the ways to begin working with Accumulo. With this project I may have the simplest possible setup assuming you're a Docker fan (and if not, you should become one!).
 
-It's simple because you don't need any Hadoop or Zookeeper installed.
+It's simple because you don't need Hadoop or Zookeeper installed.
 
-The project runs a MiniAccumuloCluster (MAC) inside a Docker container. Then connects to that MAC from a client program.
+# Quick Start
+
+The following four commands will start the MAC inside without needing to clone this project.
+
+```
+export WORKDIR=~/my-miniaccumulo-cluster
+rm -rf $WORKDIR/*
+mkdir -p $WORKDIR
+docker run \
+  -v $WORKDIR:/accumulo \
+  -e TSERVER_COUNT=20 \
+  -e ACCUMULO_SCHEMA=D4M \
+  -e JAVA_USER=${USER} \
+  -e MONITOR_PORT=20001 \
+  -e ZOOKEEPER_PORT=20000 \
+  -d \
+  --net=host \
+  -t medined/jodoc
+```
 
 # Docker Image Dependency
 
@@ -50,6 +68,9 @@ number, just look inside the script.
 ```
 ./run-image.sh
 ```
+
+This script automatically creates the tables needed for the D4M schema because
+it sets the ACCUMULO_SCHEMA environment variable.
 
 # Run client program
 
