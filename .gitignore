@@ -1,2 +1,6 @@
 dependency-reduced-pom.xml
-target
+target/classes
+target/generated-classes
+target/test-classes
+target/maven-archiver
+target/original-jodoc-1.0-SNAPSHOT.jar
