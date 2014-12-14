@@ -1,8 +1,19 @@
 #!/bin/bash
+
 WORKDIR=~/my-miniaccumulo-cluster
-sudo rm -rf $WORKDIR/*
+
+rm -rf $WORKDIR/*
 mkdir -p $WORKDIR
-ID=$(docker run -v $WORKDIR:/accumulo -e ZOOKEEPER_PORT=20000 -d --net=host -t jodoc:1)
-sleep 1
-ZOOKEEPER_PORT=$(docker logs $ID)
-echo $ZOOKEEPER_PORT
+
+ZOOKEEPER_PORT=20000
+MONITOR_PORT=20001
+
+#
+# The MiniAccumuloCluster must be executed as the same user who is running this script so that
+# the user can remove files in the shared directory. Otherwise, they are created as root.
+#
+docker run -v $WORKDIR:/accumulo -e TSERVER_COUNT=20 -e ACCUMULO_SCHEMA=D4M -e JAVA_USER=${USER} -e ZOOKEEPER_PORT=$ZOOKEEPER_PORT -e MONITOR_PORT=$MONITOR_PORT -d --net=host -t medined/jodoc
+
+echo "  ACCUMULO_DIR: $WORKDIR"
+echo "  MONITOR_PORT: $MONITOR_PORT"
+echo "ZOOKEEPER_PORT: $ZOOKEEPER_PORT"

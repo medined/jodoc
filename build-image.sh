@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build --rm=true -t jodoc:1 .
+docker build --rm=true -t medined/jodoc .

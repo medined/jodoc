@@ -16,7 +16,7 @@ public class WriteAndReadDriver {
         String zooKeepers = null;
         String user = "root";
         AuthenticationToken authToken = new PasswordToken("password");
-        String tableName = "demo";
+        String tableName = "Tedge";
 
         String zookeeperPort = System.getProperty("ZOOKEEPER_PORT");
         if (zookeeperPort == null) {
