@@ -14,7 +14,7 @@ import org.apache.accumulo.monitor.Monitor;
 
 public class Application {
 
-    private static String getProperty(final String name, final String defaultValue) {
+    private static String getStringProperty(final String name, final String defaultValue) {
         String value = System.getProperty(name);
         if (value == null) {
             return defaultValue;
@@ -22,18 +22,27 @@ public class Application {
         return value;
     }
 
+    private static Integer getIntegerProperty(final String name, final Integer defaultValue) {
+        String value = System.getProperty(name);
+        if (value == null) {
+            return defaultValue;
+        }
+        return Integer.parseInt(value);
+    }
+    
+    
     public static void main(String[] args) throws IOException, InterruptedException, AccumuloException, AccumuloSecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 
-        String accumuloDirectory = getProperty("jodoc.accumulo.directory", "/accumulo");
-        String accumuloPassword = getProperty("jodoc.accumulo.password", "password");
-        String tserverCount = getProperty("jodoc.tserver.count", "2");
-        String zookeeperPort = getProperty("jodoc.zookeeper.port", "20000");
-        String monitorPort = getProperty("jodoc.monitor.port", "20001");
-        String accumuloSchema = getProperty("jodoc.accumulo.schema", "");
+        String accumuloDirectory = getStringProperty("jodoc.accumulo.directory", "/accumulo");
+        String accumuloPassword = getStringProperty("jodoc.accumulo.password", "password");
+        Integer tserverCount = getIntegerProperty("jodoc.tserver.count", 2);
+        Integer zookeeperPort = getIntegerProperty("jodoc.zookeeper.port", 20000);
+        String monitorPort = getStringProperty("jodoc.monitor.port", "20001");
+        String accumuloSchema = getStringProperty("jodoc.accumulo.schema", "");
 
         MiniAccumuloConfigImpl miniAccumuloConfig = new MiniAccumuloConfigImpl(new File(accumuloDirectory), accumuloPassword);
-        miniAccumuloConfig.setNumTservers(Integer.parseInt(tserverCount));
-        miniAccumuloConfig.setZooKeeperPort(Integer.parseInt(zookeeperPort));
+        miniAccumuloConfig.setNumTservers(tserverCount);
+        miniAccumuloConfig.setZooKeeperPort(zookeeperPort);
         miniAccumuloConfig.setProperty(Property.MONITOR_PORT, monitorPort);
 
         MiniAccumuloClusterImpl accumulo = new MiniAccumuloClusterImpl(miniAccumuloConfig);
