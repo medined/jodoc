@@ -9,6 +9,17 @@ fan (and if not, you should become one!).
 
 It's simple because you don't need Hadoop or Zookeeper installed.
 
+# Run Jodoc from command-line
+
+java \
+  -Djodoc.accumulo.directory=/accumulo
+  -Djodoc.accumulo.password=password
+  -Djodoc.tserver.count=3 \
+  -Djodoc.accumulo.schema=D4M \
+  -Djodoc.zookeeper.port=20000 \
+  -Djodoc.monitor.port=20001 \
+  -jar target/jodoc-1.0.1.jar
+
 # Quick Start
 
 The following four commands will start the MAC without needing to clone 
@@ -20,11 +31,11 @@ rm -rf $WORKDIR/*
 mkdir -p $WORKDIR
 docker run \
   -v $WORKDIR:/accumulo \
-  -e TSERVER_COUNT=3 \
-  -e ACCUMULO_SCHEMA=D4M \
   -e JAVA_USER=${USER} \
-  -e monitor.port.client=20001 \
-  -e ZOOKEEPER_PORT=20000 \
+  -e jodoc.tserver.count=3 \
+  -e jodoc.accumulo.schema=D4M \
+  -e jodoc.monitor.port=20001 \
+  -e jodoc.zookeeper.port=20000 \
   -d \
   --net=host \
   -t medined/jodoc

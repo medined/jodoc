@@ -3,3 +3,4 @@ target/classes
 target/generated-sources
 target/maven*
 target/original-jodoc-*.jar
+target/test-classes/

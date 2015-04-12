@@ -14,42 +14,40 @@ import org.apache.accumulo.monitor.Monitor;
 
 public class Application {
 
-    public static void main(String[] args) throws IOException, InterruptedException, AccumuloException, AccumuloSecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        
-        MiniAccumuloConfigImpl miniAccumuloConfig = new MiniAccumuloConfigImpl(new File("/accumulo"), "password");
+    private static String getProperty(final String name, final String defaultValue) {
+        String value = System.getProperty(name);
+        if (value == null) {
+            return defaultValue;
+        }
+        return value;
+    }
 
-        String tserverCount = System.getProperty("TSERVER_COUNT");
-        if (tserverCount != null) {
-            miniAccumuloConfig.setNumTservers(Integer.parseInt(tserverCount));
-        } else {
-            miniAccumuloConfig.setNumTservers(1);
-        }
-        
-        String zookeeperPort = System.getProperty("ZOOKEEPER_PORT");
-        if (zookeeperPort != null) {
-            miniAccumuloConfig.setZooKeeperPort(Integer.parseInt(zookeeperPort));
-        }
-        
-        String monitorPort = System.getProperty(Property.MONITOR_PORT.getKey());
-        if (tserverCount != null) {
-            miniAccumuloConfig.setProperty(Property.MONITOR_PORT, monitorPort);
-        } else {
-            miniAccumuloConfig.setProperty(Property.MONITOR_PORT, "20001");
-        }
-        
+    public static void main(String[] args) throws IOException, InterruptedException, AccumuloException, AccumuloSecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+
+        String accumuloDirectory = getProperty("jodoc.accumulo.directory", "/accumulo");
+        String accumuloPassword = getProperty("jodoc.accumulo.password", "password");
+        String tserverCount = getProperty("jodoc.tserver.count", "2");
+        String zookeeperPort = getProperty("jodoc.zookeeper.port", "20000");
+        String monitorPort = getProperty("jodoc.monitor.port", "20001");
+        String accumuloSchema = getProperty("jodoc.accumulo.schema", "");
+
+        MiniAccumuloConfigImpl miniAccumuloConfig = new MiniAccumuloConfigImpl(new File(accumuloDirectory), accumuloPassword);
+        miniAccumuloConfig.setNumTservers(Integer.parseInt(tserverCount));
+        miniAccumuloConfig.setZooKeeperPort(Integer.parseInt(zookeeperPort));
+        miniAccumuloConfig.setProperty(Property.MONITOR_PORT, monitorPort);
+
         MiniAccumuloClusterImpl accumulo = new MiniAccumuloClusterImpl(miniAccumuloConfig);
         accumulo.start();
         accumulo.exec(Monitor.class);
-        
-        String accumuloSchema = System.getProperty("ACCUMULO_SCHEMA");
-        if (accumuloSchema != null && accumuloSchema.equals("D4M")) {
+
+        if (accumuloSchema.equalsIgnoreCase("D4M")) {
             Connector connector = accumulo.getConnector("root", "password");
             TableOperations tableOperations = connector.tableOperations();
             TableManager tableManager = new TableManager(connector, tableOperations);
             tableManager.createTables();
             tableManager.addSplitsForSha1();
         }
-        
+
         while (true) {
             Thread.sleep(10000);
         }

@@ -14,11 +14,12 @@ MONITOR_PORT=20001
 #
 docker run \
   -v $WORKDIR:/accumulo \
-  -e TSERVER_COUNT=3 \
-  -e ACCUMULO_SCHEMA=D4M \
+  -v $WORKDIR:/accumulo \
   -e JAVA_USER=${USER} \
-  -e ZOOKEEPER_PORT=$ZOOKEEPER_PORT \
-  -e monitor.port.client=$MONITOR_PORT -d \
+  -e jodoc.tserver.count=3 \
+  -e jodoc.accumulo.schema=D4M \
+  -e jodoc.monitor.port=$MONITOR_PORT \
+  -e jodoc.zookeeper.port=$ZOOKEEPER_PORT \
   --net=host \
   -t medined/jodoc
 
