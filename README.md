@@ -3,13 +3,16 @@ jodoc
 
 Runs MiniAccumuloCluster inside a Docker container
 
-I continue to look for the ways to begin working with Accumulo. With this project I may have the simplest possible setup assuming you're a Docker fan (and if not, you should become one!).
+I continue to look for the ways to begin working with Accumulo. With this 
+project I may have the simplest possible setup assuming you're a Docker 
+fan (and if not, you should become one!).
 
 It's simple because you don't need Hadoop or Zookeeper installed.
 
 # Quick Start
 
-The following four commands will start the MAC inside without needing to clone this project.
+The following four commands will start the MAC without needing to clone 
+this project.
 
 ```
 export WORKDIR=~/my-miniaccumulo-cluster
@@ -17,10 +20,10 @@ rm -rf $WORKDIR/*
 mkdir -p $WORKDIR
 docker run \
   -v $WORKDIR:/accumulo \
-  -e TSERVER_COUNT=20 \
+  -e TSERVER_COUNT=3 \
   -e ACCUMULO_SCHEMA=D4M \
   -e JAVA_USER=${USER} \
-  -e MONITOR_PORT=20001 \
+  -e monitor.port.client=20001 \
   -e ZOOKEEPER_PORT=20000 \
   -d \
   --net=host \

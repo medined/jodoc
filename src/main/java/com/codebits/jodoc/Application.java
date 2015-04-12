@@ -30,8 +30,6 @@ public class Application {
             miniAccumuloConfig.setZooKeeperPort(Integer.parseInt(zookeeperPort));
         }
         
-        System.out.println("Property.MONITOR_PORT.getKey(): " + Property.MONITOR_PORT.getKey());
-        
         String monitorPort = System.getProperty(Property.MONITOR_PORT.getKey());
         if (tserverCount != null) {
             miniAccumuloConfig.setProperty(Property.MONITOR_PORT, monitorPort);
