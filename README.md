@@ -97,3 +97,9 @@ and can be ignored. Since the exception happens when the client application is
 exiting, all resources are freed.
 
 [1] https://issues.apache.org/jira/browse/ACCUMULO-2113
+
+# Changes
+
+## 1.0.1
+
+Fix logic check for Monitor Port.

@@ -3,8 +3,6 @@ package com.codebits.jodoc;
 import com.codebits.d4m.TableManager;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Map;
 import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
 import org.apache.accumulo.core.client.Connector;
@@ -32,8 +30,12 @@ public class Application {
             miniAccumuloConfig.setZooKeeperPort(Integer.parseInt(zookeeperPort));
         }
         
+        System.out.println("Property.MONITOR_PORT.getKey(): " + Property.MONITOR_PORT.getKey());
+        
         String monitorPort = System.getProperty(Property.MONITOR_PORT.getKey());
-        if (monitorPort != null) {
+        if (tserverCount != null) {
+            miniAccumuloConfig.setProperty(Property.MONITOR_PORT, monitorPort);
+        } else {
             miniAccumuloConfig.setProperty(Property.MONITOR_PORT, "20001");
         }
         
