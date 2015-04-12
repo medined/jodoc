@@ -49,6 +49,11 @@ Compile the Java code and create a shaded jar file. This jar file is copied
 into the Docker image that runs the MAC. It's shaded so that all dependent 
 classes are available inside the container.
 
+The Git repository deliberately includes the generated jodoc jar file so 
+you don't need to compile in order to build the Docker image. This is not
+normal.
+
+
 ```
 mvn package
 ```
