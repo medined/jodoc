@@ -40,6 +40,14 @@ public class Application {
         String monitorPort = getStringProperty("jodoc.monitor.port", "20001");
         String accumuloSchema = getStringProperty("jodoc.accumulo.schema", "");
 
+        System.out.println("Configuration Report");
+        System.out.println("accumuloDirectory: " + accumuloDirectory);
+        System.out.println("accumuloPassword: XXXXXXXX");
+        System.out.println("accumuloSchema: " + accumuloSchema);
+        System.out.println("monitorPort: " + monitorPort);
+        System.out.println("tserverCount: " + tserverCount);
+        System.out.println("zookeeperPort: " + zookeeperPort);
+        
         MiniAccumuloConfigImpl miniAccumuloConfig = new MiniAccumuloConfigImpl(new File(accumuloDirectory), accumuloPassword);
         miniAccumuloConfig.setNumTservers(tserverCount);
         miniAccumuloConfig.setZooKeeperPort(zookeeperPort);

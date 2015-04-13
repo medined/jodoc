@@ -11,6 +11,7 @@ It's simple because you don't need Hadoop or Zookeeper installed.
 
 # Run Jodoc from command-line
 
+```
 java \
   -Djodoc.accumulo.directory=/accumulo
   -Djodoc.accumulo.password=password
@@ -19,6 +20,7 @@ java \
   -Djodoc.zookeeper.port=20000 \
   -Djodoc.monitor.port=20001 \
   -jar target/jodoc-1.0.1.jar
+```
 
 # Quick Start
 
