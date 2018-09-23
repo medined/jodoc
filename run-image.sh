@@ -13,14 +13,16 @@ MONITOR_PORT=20001
 # the user can remove files in the shared directory. Otherwise, they are created as root.
 #
 docker run \
+  --name=jodoc \
+  --hostname=jodoc \
   -v $WORKDIR:/accumulo \
-  -v $WORKDIR:/accumulo \
+  -p $MONITOR_PORT:$MONITOR_PORT \
+  -p $ZOOKEEPER_PORT:$ZOOKEEPER_PORT \
   -e JAVA_USER=${USER} \
   -e jodoc.tserver.count=3 \
   -e jodoc.accumulo.schema=D4M \
   -e jodoc.monitor.port=$MONITOR_PORT \
   -e jodoc.zookeeper.port=$ZOOKEEPER_PORT \
-  --net=host \
   -t medined/jodoc
 
 echo "  ACCUMULO_DIR: $WORKDIR"

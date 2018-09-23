@@ -15,7 +15,7 @@ import org.apache.accumulo.monitor.Monitor;
 public class Application {
 
     private static String getStringProperty(final String name, final String defaultValue) {
-        String value = System.getProperty(name);
+        String value = System.getenv(name);
         if (value == null) {
             return defaultValue;
         }
@@ -23,7 +23,7 @@ public class Application {
     }
 
     private static Integer getIntegerProperty(final String name, final Integer defaultValue) {
-        String value = System.getProperty(name);
+        String value = System.getenv(name);
         if (value == null) {
             return defaultValue;
         }
